@@ -1,0 +1,45 @@
+{
+    "System Command & User Defined Command": [
+      "Open Google and Search <Anything>",
+      "Open Youtube and Search <Anything>",
+      "Open Browser and Search <Anything>",
+      "Shutdown Computer",
+      "Save File",
+      "Open Folder <Name>",
+      "Open File <File Name> in <Location>",
+      "Print <Document Name>"
+    ],
+    "System Command & Basic Application": [
+      "Open Microsoft Word",
+      "Exit Microsoft Word",
+      "Open Microsoft Excel",
+      "Exit Microsoft Excel",
+      "Open Powerpoint",
+      "Exit Powerpoint",
+      "Open Zoom App",
+      "Exit Zoom App",
+      "Open Google",
+      "Exit Google"
+    ],
+    "System Command & Common Application": [
+      "Open Calculator",
+      "Exit Calculator",
+      "Open Calendar",
+      "Exit Calendar",
+      "Open File Manager",
+      "Exit File Manager",
+      "Open Sticky Notes",
+      "Exit Sticky Notes",
+      "Open Notepad",
+      "Exit Notepad",
+      "Open Camera",
+      "Exit Camera",
+      "Open Clock",
+      "Exit Clock",
+      "Open Paint",
+      "Exit Paint",
+      "Open Voice Recorder",
+      "Exit Voice Recorder"
+    ]
+  }
+  

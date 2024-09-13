@@ -1,0 +1,26 @@
+{
+    "Office": {
+        "icon": "assets/tools/office.png"
+    },
+    "PowerPoint": {
+        "icon": "assets/tools/powerpoint.png"
+    },
+    "Excel": {
+        "icon": "assets/tools/excel.png"
+    },
+    "Outlook": {
+        "icon": "assets/tools/outlook.png"
+    },
+    "OneNote": {
+        "icon": "assets/tools/onenote.png"
+    },
+    "Publisher": {
+        "icon": "assets/tools/publisher.png"
+    },
+    "Teams": {
+        "icon": "assets/tools/teams.png"
+    },
+    "Zoom": {
+        "icon": "assets/tools/zoom.png"
+    }
+}

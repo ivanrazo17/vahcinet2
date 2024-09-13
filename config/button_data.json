@@ -1,12 +1,42 @@
 {
-    "Search": "assets/SearchIcon.png",
-    "Upload": "assets/UploadIcon.png",
-    "LMS": "assets/LMSIcon.png",
-    "Files": "assets/FolderIcon.png",
-    "Browser": "assets/BrowserIcon.png",
-    "Eye Tracker": "assets/EyeIcon.png",
-    "Voice Command": "assets/VoiceIcon.png",
-    "Command List": "assets/ListIcon.png",
-    "MS Office": "assets/OfficeIcon.png",
-    "Music": "assets/MusicIcon.png"
+    "Search": {
+        "icon": "assets/SearchIcon.png",
+        "function": "open_Search"
+    },
+    "Upload": {
+        "icon": "assets/UploadIcon.png",
+        "function": "open_Upload"
+    },
+    "LMS": {
+        "icon": "assets/LMSIcon.png",
+        "function": "open_LMS"
+    },
+    "Files": {
+        "icon": "assets/FolderIcon.png",
+        "function": "open_Files"
+    },
+    "Browser": {
+        "icon": "assets/BrowserIcon.png",
+        "function": "open_Browser"
+    },
+    "Eye Tracker": {
+        "icon": "assets/EyeIcon.png",
+        "function": "eyeTrackerFunction"
+    },
+    "Voice Command": {
+        "icon": "assets/VoiceIcon.png",
+        "function": "voiceCommandFunction"
+    },
+    "Command List": {
+        "icon": "assets/ListIcon.png",
+        "function": "open_CommandList"
+    },
+    "Microsoft Tools": {
+        "icon": "assets/OfficeIcon.png",
+        "function": "open_MsOfficePopup"
+    },
+    "Music": {
+        "icon": "assets/MusicIcon.png",
+        "function": "open_Music"
+    }
 }

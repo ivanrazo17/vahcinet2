@@ -1,3 +1,4 @@
+from src import function_map
 import customtkinter
 import ctypes
 from PIL import Image
@@ -51,7 +52,11 @@ button_data = load_button_data('config/button_data.json')
 def create_buttons(container, button_info):
     poppins = customtkinter.CTkFont(family='Poppins', weight='normal', size=16)
     
-    for name, icon_path in button_info.items():
+    for name, details in button_info.items():
+        icon_path = details["icon"]
+        function_name = details["function"]
+        function = function_map.get(function_name, None)
+
         button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
         button_frame.pack(padx=5, pady=5, fill='x')
         
@@ -63,11 +68,12 @@ def create_buttons(container, button_info):
             image=ctk_image,
             text="",
             fg_color="#FDFCFA",
-            hover_color="#F6F6F6",
+            hover_color="#D3D3D3",
             corner_radius=50,
             width=45,
             height=45,
-            cursor="hand2"
+            cursor="hand2",
+            command=function  # Assign the function as the command
         )
         button.pack()
         
