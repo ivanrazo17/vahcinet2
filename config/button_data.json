@@ -21,7 +21,7 @@
     },
     "Eye Tracker": {
         "icon": "assets/EyeIcon.png",
-        "function": "eyeTrackerFunction"
+        "function": "run_eye_tracker"
     },
     "Voice Command": {
         "icon": "assets/VoiceIcon.png",

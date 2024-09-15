@@ -3,7 +3,7 @@ from .Upload import open_Upload
 from .LMS import open_LMS
 from .Files import open_Files
 from .Browser import open_Browser
-# from .EyeTracker import eyeTrackerFunction
+from .EyeTracker import run_eye_tracker
 # from .VoiceCommand import voiceCommandFunction
 from .CommandList import open_CommandList
 from .Office import open_MsOfficePopup
@@ -15,7 +15,7 @@ function_map = {
     "open_LMS": open_LMS,
     "open_Files": open_Files,
     "open_Browser": open_Browser,
-    # "eyeTrackerFunction": eyeTrackerFunction,
+    "run_eye_tracker": run_eye_tracker,
     # "voiceCommandFunction": voiceCommandFunction,
     "open_CommandList": open_CommandList,
     "open_MsOfficePopup": open_MsOfficePopup,
