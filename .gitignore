@@ -1,0 +1,7 @@
+# Ignore this directories
+/dist/
+/build/
+/.venv/
+
+# Ignore SPEC file
+/VAHCINET.spec

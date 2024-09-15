@@ -1,3 +1,4 @@
+# VoiceFunctions.py
 import os
 import json
 import numpy as np
@@ -7,6 +8,7 @@ import webbrowser
 import pyautogui
 import re
 import platform
+from typing import Callable
 
 def extract_features(myrecording: np.ndarray, fs: int, expected_features: int = 64000) -> np.ndarray:
     window_size = 5000  # milliseconds
@@ -28,11 +30,7 @@ def extract_features(myrecording: np.ndarray, fs: int, expected_features: int = 
 
 def write_to_json_file(features: np.ndarray, filename: str = 'input.json') -> None:
     current_directory = os.getcwd()
-    directory_path = os.path.join(current_directory, 'data', 'input')
-    
-    # Create the directory if it does not exist
-    os.makedirs(directory_path, exist_ok=True)
-    
+    directory_path = os.path.join(current_directory, 'data', 'input')    
     file_path = os.path.join(directory_path, filename)
 
     # Write features to a JSON file
@@ -45,9 +43,9 @@ def clear_json_file(filename: str = 'data/input/voice_command_data.json') -> Non
 
     # Clear the JSON contents by writing an empty JSON object
     with open(file_path, 'w') as file:
-        json.dump({}, file)  # You can replace {} with [] if the file is a JSON array
+        json.dump({}, file)
 
-def classify_features(raw_features: np.ndarray) -> str:
+def classify_features(raw_features: np.ndarray, update_gui: Callable[[str], None]) -> str:
     # Write features to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp:
         temp.write(','.join(map(str, raw_features)))
@@ -83,7 +81,7 @@ def classify_features(raw_features: np.ndarray) -> str:
             return "No valid results from classification."
 
     except subprocess.CalledProcessError as e:
-        print(f"Failed to initialize classifier. Error: {e}")
+        update_gui(f"Failed to initialize classifier. Error: {e}")
         return "Classification failed."
 
 def get_search_query_from_json(filename: str = 'data/input/speech_text.json') -> str:
@@ -101,89 +99,89 @@ def get_search_query_from_json(filename: str = 'data/input/speech_text.json') ->
                 query = recognized_text.split('search ', 1)[-1].strip()
                 return query
             else:
-                print("Error: The recognized text does not match expected patterns.")
                 return ''
     else:
-        print(f"Error: The file {filename} does not exist.")
         return ''
 
-def open_youtube_and_search() -> None:
+def open_youtube_and_search(update_gui: Callable[[str], None]) -> None:
     query = get_search_query_from_json()
     if query:
         search_url = f"https://www.youtube.com/results?search_query={query}"
         webbrowser.open(search_url)
-        print(f"Opened YouTube and searched for '{query}'.")
+        update_gui(f"Opened YouTube and searched for '{query}'.")
     else:
-        print("No search query provided.")
+        update_gui("No search query provided.")
 
-def open_browser_and_search() -> None:
+def open_browser_and_search(update_gui: Callable[[str], None]) -> None:
     query = get_search_query_from_json()
     if query:
         search_url = f"https://www.google.com/search?q={query}"
         webbrowser.open(search_url)
-        print(f"Opened browser and searched for '{query}'.")
+        update_gui(f"Opened browser and searched for '{query}'.")
     else:
-        print("No search query provided.")
+        update_gui("No search query provided.")
 
-def open_google_and_search() -> None:
+def open_google_and_search(update_gui: Callable[[str], None]) -> None:
     query = get_search_query_from_json()
     if query:
         search_url = f"https://www.google.com/search?q={query}"
         webbrowser.open(search_url)
-        print(f"Opened google and searched for '{query}'.")
+        update_gui(f"Opened google and searched for '{query}'.")
     else:
-        print("No search query provided.")
+        update_gui("No search query provided.")
 
-def perform_print() -> None:
+def perform_print(update_gui: Callable[[str], None]) -> None:
     pyautogui.hotkey('ctrl', 'p')
-    print("Ctrl+P simulated for printing")
+    update_gui("Ctrl+P simulated for printing")
 
-def perform_save() -> None:
+def perform_save(update_gui: Callable[[str], None]) -> None:
     pyautogui.hotkey('ctrl', 's')
-    print("Ctrl+S simulated for saving")
+    update_gui("Ctrl+S simulated for saving")
 
-def close_google_tab() -> None:
+def close_google_tab(update_gui: Callable[[str], None]) -> None:
     if platform.system() == "Windows" or platform.system() == "Linux":
         pyautogui.hotkey('ctrl', 'w')  # Close current tab (Ctrl + W)
     elif platform.system() == "Darwin":  # macOS
         pyautogui.hotkey('command', 'w')  # Close current tab (Cmd + W)
-    print("Active browser tab closed.")
+    update_gui("Active browser tab closed.")
 
-def output_prediction(config_filename: str = 'config/config.json', data_filename: str = 'data/processed/processed_data.json') -> None:
+def output_prediction(config_filename: str = 'config/config.json', data_filename: str = 'data/processed/processed_data.json', update_gui: Callable[[str], None] = None) -> None:
     current_directory = os.getcwd()
     config_path = os.path.join(current_directory, config_filename)
     data_path = os.path.join(current_directory, data_filename)
 
     def handle_print():
-        perform_print()
+        perform_print(update_gui)
 
     def handle_save_file():
-        perform_save()
+        perform_save(update_gui)
 
     def handle_open_google_and_search():
-        open_google_and_search()
+        open_google_and_search(update_gui)
 
     def handle_exit_google():
-        close_google_tab()
+        close_google_tab(update_gui)
 
     def handle_open_youtube_and_search():
-        open_youtube_and_search()
+        open_youtube_and_search(update_gui)
 
     def handle_open_browser_and_search():
-        open_browser_and_search()
+        open_browser_and_search(update_gui)
 
     def handle_default(max_label: str):
-        print(f"Executed {max_label}.")
+        
         if max_label.startswith("Open"):
             subprocess.Popen(actions[max_label], shell=True)
-            print(f"{max_label} executed.")
+            update_gui(f"You {max_label}.")
+        elif (max_label == "Noise"):
+            update_gui(f"{max_label} was detected.")
         else:
             app_name = actions[max_label]
             result = subprocess.run(["taskkill", "/IM", app_name, "/F"], capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"{max_label} executed.")
+                update_gui(f"You {max_label}.")
             else:
-                print(f"Failed to Execute {max_label} app: {result.stderr}")
+                update_gui(f"Failed to Execute {max_label} app: {result.stderr}")
 
     try:
         # Load actions from JSON config file
@@ -197,8 +195,6 @@ def output_prediction(config_filename: str = 'config/config.json', data_filename
             
             if labels_and_values:
                 max_label, max_value = max(labels_and_values, key=lambda x: float(x[1]))
-                print(f"Max label: {max_label}, Value: {max_value}")
-
                 # Define the dispatch table
                 switch_case = {
                     "Print": handle_print,
@@ -214,11 +210,11 @@ def output_prediction(config_filename: str = 'config/config.json', data_filename
                 handler()
 
             else:
-                print("No labels and values found in the data file.")
+                update_gui("No labels and values found in the data file.")
 
     except FileNotFoundError as e:
-        print(f"Error: {e.filename} not found.")
+        update_gui(f"Error: {e.filename} not found.")
     except json.JSONDecodeError:
-        print("Error: Failed to decode JSON from the configuration file.")
+        update_gui("Error: Failed to decode JSON from the configuration file.")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        update_gui(f"An unexpected error occurred: {e}")

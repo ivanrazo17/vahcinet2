@@ -25,7 +25,7 @@
     },
     "Voice Command": {
         "icon": "assets/VoiceIcon.png",
-        "function": "voiceCommandFunction"
+        "function": "run_voice_command"
     },
     "Command List": {
         "icon": "assets/ListIcon.png",

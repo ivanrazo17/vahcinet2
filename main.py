@@ -1,9 +1,21 @@
 from src import function_map
 import customtkinter
 import ctypes
-from PIL import Image
 import json
 import time
+import threading
+from PIL import Image
+import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('version')
 customtkinter.set_appearance_mode('dark')
@@ -19,7 +31,7 @@ hide_timer = None  # Timer reference for hiding the app
 app.attributes('-alpha', 0.9)
 app.geometry(f'{maxWidth}x{maxHeight}+{original_x}+{original_y}')
 app.title('VAHCINET')
-app.iconbitmap("assets/VahcinetIcon.ico")
+app.iconbitmap(resource_path("favicon.ico"))
 
 # Make the window stay on top of all other windows
 app.attributes('-topmost', 1)
@@ -46,12 +58,38 @@ def load_button_data(filename):
         return json.load(file)
 
 # Load button data
-button_data = load_button_data('config/button_data.json')
+button_data = load_button_data(resource_path('config\\button_data.json'))
 
 # Function to create buttons with icons (image on top, text at the bottom)
-def create_buttons(container, button_info):
+def create_button(button_frame, name, icon_path, function):
+    image = Image.open(icon_path)
+    ctk_image = customtkinter.CTkImage(light_image=image, dark_image=image, size=(45, 45))
     poppins = customtkinter.CTkFont(family='Poppins', weight='normal', size=16)
     
+    button = customtkinter.CTkButton(
+        button_frame,
+        image=ctk_image,
+        text="",
+        fg_color="#FDFCFA",
+        hover_color="#D3D3D3",
+        corner_radius=50,
+        width=45,
+        height=45,
+        cursor="hand2",
+        command=lambda: threading.Thread(target=function).start()  # Start function in a new thread
+    )
+    button.pack()
+    
+    text_label = customtkinter.CTkLabel(
+        button_frame,
+        text=name,
+        text_color="#FFFFFF",
+        font=poppins
+    )
+    text_label.pack()
+
+def create_buttons(container, button_info):
+
     for name, details in button_info.items():
         icon_path = details["icon"]
         function_name = details["function"]
@@ -59,31 +97,9 @@ def create_buttons(container, button_info):
 
         button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
         button_frame.pack(padx=5, pady=5, fill='x')
-        
-        image = Image.open(icon_path)
-        ctk_image = customtkinter.CTkImage(light_image=image, dark_image=image, size=(45, 45))
-        
-        button = customtkinter.CTkButton(
-            button_frame,
-            image=ctk_image,
-            text="",
-            fg_color="#FDFCFA",
-            hover_color="#D3D3D3",
-            corner_radius=50,
-            width=45,
-            height=45,
-            cursor="hand2",
-            command=function  # Assign the function as the command
-        )
-        button.pack()
-        
-        text_label = customtkinter.CTkLabel(
-            button_frame,
-            text=name,
-            text_color="#FFFFFF",
-            font=poppins
-        )
-        text_label.pack()
+
+        # Create a new button for each action
+        create_button(button_frame, name, icon_path, function)
 
 def hide_app():
     global app_visible

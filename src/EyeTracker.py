@@ -25,7 +25,7 @@ def run_eye_tracker():
     popup_layout = QVBoxLayout(popup)
 
     # Close button
-    close_button = QPushButton("X", popup)
+    close_button = QPushButton("✕", popup)
     close_button.setStyleSheet("background-color: red; color: white; border: none;")
     close_button.clicked.connect(popup.reject)
     close_button.setMinimumSize(20, 20)
