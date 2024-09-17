@@ -37,7 +37,7 @@ maxHeight = app.winfo_screenheight()
 maxWidth = 200
 
 # Store the original position
-original_x, original_y = -9, -1
+original_x, original_y = -9, 0
 app_visible = True  # To track if the app is visible or hidden
 hide_timer = None  # Timer reference for hiding the app
 tutorial_open = False  # To track if the tutorial is open
