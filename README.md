@@ -22,12 +22,12 @@ To run the VAHCINET, follow these steps:
    ```
 
 **This will create the .exe file of our application, located at dist folder.**
-**Then, transfer the folders: assets, config, data, model, src to dist(Will replace this with an MSI installer)**
+**Then, transfer the folders: assets, config, data, model, src to dist (Will replace this with an MSI installer)**
 
 ## VAHCINET Functional Buttons:
 
-| ![Website Thumbnail](/assets/thumbnail.PNG) | 
-| ----------------------------------------------------- |
+| ![Website Thumbnail](/assets/thumbnail.PNG) | **VAHCINET Functional Buttons:** |
+|------------------------------------------------|------------------------------------|
 | **Search Button:** Imitates the Windows Search button. |
 | **Upload Button:** Opens the Default Browser and will navigate to Google Drive. |
 | **LMS Button:** Opens up the CDM LMS Blackboard using Default Browser. |
@@ -38,6 +38,7 @@ To run the VAHCINET, follow these steps:
 | **Command List:** Opens a pop-up containing the available voice commands the application can perform. |
 | **Microsoft Tools:** This button opens a pop-up menu for common tools for students. |
 | **Music Button:** Opens the default media player of the computer. |
+
 
 # VAHCINET List of Voice Commands:
 VAHCINET will wait for 5 seconds to capture input voices and automatically navigates the computer based on the voice command.
