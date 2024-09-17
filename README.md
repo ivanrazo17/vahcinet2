@@ -26,18 +26,40 @@ To run the VAHCINET, follow these steps:
 
 ## VAHCINET Functional Buttons:
 
-| ![Website Thumbnail](/assets/thumbnail.PNG) | **VAHCINET Functional Buttons:** |
-|------------------------------------------------|------------------------------------|
-| **Search Button:** Imitates the Windows Search button. |
-| **Upload Button:** Opens the Default Browser and will navigate to Google Drive. |
-| **LMS Button:** Opens up the CDM LMS Blackboard using Default Browser. |
-| **Files Button:** Opens the File Manager and automatically clicks the search panel. |
-| **Browser Button:** Opens the Default Browser and will navigate to Google. |
-| **Eye-tracker Button:** This button activates the Eye tracker, which allows manual control of the mouse cursor using the user's eye and head movements. |
-| **Voice Command Button:** Activates the HCI system that allows computer navigation using voice inputs. |
-| **Command List:** Opens a pop-up containing the available voice commands the application can perform. |
-| **Microsoft Tools:** This button opens a pop-up menu for common tools for students. |
-| **Music Button:** Opens the default media player of the computer. |
+<table>
+  <tr>
+    <td rowspan="9"><img src="/assets/thumbnail.PNG" alt="Website Thumbnail" style="width:150px;"></td>
+    <td><strong>Search Button:</strong> Imitates the Windows Search button.</td>
+  </tr>
+  <tr>
+    <td><strong>Upload Button:</strong> Opens the Default Browser and will navigate to Google Drive.</td>
+  </tr>
+  <tr>
+    <td><strong>LMS Button:</strong> Opens up the CDM LMS Blackboard using Default Browser.</td>
+  </tr>
+  <tr>
+    <td><strong>Files Button:</strong> Opens the File Manager and automatically clicks the search panel.</td>
+  </tr>
+  <tr>
+    <td><strong>Browser Button:</strong> Opens the Default Browser and will navigate to Google.</td>
+  </tr>
+  <tr>
+    <td><strong>Eye-tracker Button:</strong> This button activates the Eye tracker, which allows manual control of the mouse cursor using the user's eye and head movements.</td>
+  </tr>
+  <tr>
+    <td><strong>Voice Command Button:</strong> Activates the HCI system that allows computer navigation using voice inputs.</td>
+  </tr>
+  <tr>
+    <td><strong>Command List:</strong> Opens a pop-up containing the available voice commands the application can perform.</td>
+  </tr>
+  <tr>
+    <td><strong>Microsoft Tools:</strong> This button opens a pop-up menu for common tools for students.</td>
+  </tr>
+  <tr>
+    <td><strong>Music Button:</strong> Opens the default media player of the computer.</td>
+  </tr>
+</table>
+
 
 
 # VAHCINET List of Voice Commands:
