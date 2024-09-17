@@ -21,8 +21,8 @@ To run the VAHCINET, follow these steps:
    main.py
 
    
-This will create the .exe file of our application, located at dist folder. Then, transfer the folders: assets, config, data, model, src to dist.
-(Will replace this with an MSI installer)
+**This will create the .exe file of our application, located at dist folder.**
+**Then, transfer the folders: assets, config, data, model, src to dist(Will replace this with an MSI installer)**
 
 ## VAHCINET Functional Buttons:
 
