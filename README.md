@@ -28,7 +28,7 @@ To run the VAHCINET, follow these steps:
 
 <table>
   <tr>
-    <td rowspan="9"><img src="/assets/thumbnail.PNG" alt="Website Thumbnail" style="width:150px;"></td>
+    <td rowspan="10" style="vertical-align: middle; text-align: center;"><img src="/assets/thumbnail.PNG" alt="Website Thumbnail" style="width:150px;"></td>
     <td><strong>Search Button:</strong> Imitates the Windows Search button.</td>
   </tr>
   <tr>
@@ -59,6 +59,7 @@ To run the VAHCINET, follow these steps:
     <td><strong>Music Button:</strong> Opens the default media player of the computer.</td>
   </tr>
 </table>
+
 
 
 
