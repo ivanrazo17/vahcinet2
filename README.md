@@ -19,8 +19,8 @@ To run the VAHCINET, follow these steps:
    --add-binary ".venv/Lib/site-packages/cv2/opencv_videoio_ffmpeg4100_64.dll;cv2" \
    --add-data ".venv/Lib/site-packages/mediapipe;mediapipe" \
    main.py
+   ```
 
-   
 **This will create the .exe file of our application, located at dist folder.**
 **Then, transfer the folders: assets, config, data, model, src to dist(Will replace this with an MSI installer)**
 
