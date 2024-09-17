@@ -1,4 +1,5 @@
 from src import function_map
+from src.Tutorial import show_tutorial  # Import the function from Tutorial.py
 import customtkinter
 import ctypes
 import json
@@ -13,9 +14,21 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS2
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
+# Function to load the tutorial flag from config/flag.json
+def load_tutorial_flag(filename):
+    with open(filename, 'r') as file:
+        return json.load(file)
+
+# Function to save the tutorial flag after it has been shown
+def save_tutorial_flag(filename, flag_data):
+    with open(filename, 'w') as file:
+        json.dump(flag_data, file, indent=4)
+
+# Load the tutorial flag
+flag_file = resource_path('config\\flag.json')
+tutorial_flag = load_tutorial_flag(flag_file)
 
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('version')
 customtkinter.set_appearance_mode('dark')
@@ -24,9 +37,10 @@ maxHeight = app.winfo_screenheight()
 maxWidth = 200
 
 # Store the original position
-original_x, original_y = -9, 0
+original_x, original_y = -9, -1
 app_visible = True  # To track if the app is visible or hidden
 hide_timer = None  # Timer reference for hiding the app
+tutorial_open = False  # To track if the tutorial is open
 
 app.attributes('-alpha', 0.9)
 app.geometry(f'{maxWidth}x{maxHeight}+{original_x}+{original_y}')
@@ -61,25 +75,27 @@ def load_button_data(filename):
 button_data = load_button_data(resource_path('config\\button_data.json'))
 
 # Function to create buttons with icons (image on top, text at the bottom)
-def create_button(button_frame, name, icon_path, function):
+def create_button(button_frame, name, icon_path, function, highlight=False):
     image = Image.open(icon_path)
     ctk_image = customtkinter.CTkImage(light_image=image, dark_image=image, size=(45, 45))
     poppins = customtkinter.CTkFont(family='Poppins', weight='normal', size=16)
+
+    border_color = "#FFFF00" if highlight else "#FDFCFA"
     
     button = customtkinter.CTkButton(
         button_frame,
         image=ctk_image,
         text="",
-        fg_color="#FDFCFA",
+        fg_color=border_color,
         hover_color="#D3D3D3",
         corner_radius=50,
         width=45,
         height=45,
         cursor="hand2",
-        command=lambda: threading.Thread(target=function).start()  # Start function in a new thread
+        command=lambda: threading.Thread(target=function).start() 
     )
     button.pack()
-    
+
     text_label = customtkinter.CTkLabel(
         button_frame,
         text=name,
@@ -89,8 +105,22 @@ def create_button(button_frame, name, icon_path, function):
     text_label.pack()
 
 def create_buttons(container, button_info):
+    button_frames = {} 
+    stop_at_button_name = "Music"
 
     for name, details in button_info.items():
+        if name == stop_at_button_name:
+            icon_path = details["icon"]
+            function_name = details["function"]
+            function = function_map.get(function_name, None)
+
+            button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
+            button_frame.pack(padx=5, pady=5, fill='x')
+
+            create_button(button_frame, name, icon_path, function)
+            button_frames[name] = button_frame
+            break  
+
         icon_path = details["icon"]
         function_name = details["function"]
         function = function_map.get(function_name, None)
@@ -98,8 +128,10 @@ def create_buttons(container, button_info):
         button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
         button_frame.pack(padx=5, pady=5, fill='x')
 
-        # Create a new button for each action
         create_button(button_frame, name, icon_path, function)
+        button_frames[name] = button_frame
+
+    return button_frames
 
 def hide_app():
     global app_visible
@@ -119,7 +151,7 @@ def restore_position():
             time.sleep(0.01)
         app.geometry(f'{maxWidth}x{maxHeight}+{original_x}+{original_y}')
         app_visible = True
-        
+
 def is_cursor_within_geometry():
     cursor_x = app.winfo_pointerx()
     cursor_y = app.winfo_pointery()
@@ -133,8 +165,7 @@ def start_hide_timer():
     global hide_timer
     if hide_timer:
         app.after_cancel(hide_timer)
-    # Start the timer only if the cursor is not within the app's geometry
-    if not is_cursor_within_geometry():
+    if not is_cursor_within_geometry() and not tutorial_open:
         hide_timer = app.after(2000, hide_app)
 
 def on_mouse_enter(event):
@@ -144,15 +175,20 @@ def on_mouse_enter(event):
 def on_mouse_leave(event):
     start_hide_timer()
 
+# Create the button frame and buttons
+button_frame = customtkinter.CTkFrame(app, fg_color="transparent")
+button_frame.pack(fill="both", expand=True)
+
+button_frames = create_buttons(button_frame, button_data)
+
 app.bind("<Enter>", on_mouse_enter)
 app.bind("<Leave>", on_mouse_leave)
 
-button_container = customtkinter.CTkFrame(app, width=100, fg_color="transparent")
-button_container.pack(side='top', fill='y', padx=10, pady=10)
+# Run the tutorial only if the flag is False
+if not tutorial_flag.get("tutorial_shown", False):
+    show_tutorial(app, button_frames, start_hide_timer)
+    tutorial_flag["tutorial_shown"] = True
+    save_tutorial_flag(flag_file, tutorial_flag) 
 
 app.after(10, lambda: remove_window_borders(app))
-app.after(20, lambda: create_buttons(button_container, button_data))
-
-start_hide_timer()
-
 app.mainloop()

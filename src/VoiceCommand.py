@@ -138,7 +138,6 @@ def run_voice_command():
         # Show output
         output_prediction(config_filename='config/config.json', data_filename='data/processed/processed_data.json', update_gui=update_gui)
     
-    app.mainloop()
 
 
 

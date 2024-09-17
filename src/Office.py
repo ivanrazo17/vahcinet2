@@ -9,13 +9,13 @@ tools_json_path = 'config/tools_icon.json'
 
 def open_MsOfficePopup():
     popup = ctk.CTkToplevel()
-
+    # Make the window stay on top of all other windows
+    popup.attributes('-topmost', 1)
     # Remove window decorations
     popup.overrideredirect(True)
 
     # Center the popup at the top middle of the screen
     screen_width = popup.winfo_screenwidth()
-    screen_height = popup.winfo_screenheight()
     popup_width = 1150  # Increased width to fit more buttons
     popup_height = 100  # Increased height to fit text and icons
     x = (screen_width // 2) - (popup_width // 2)
@@ -41,8 +41,6 @@ def open_MsOfficePopup():
     # Load button data from JSON
     with open(tools_json_path, 'r') as file:
         button_data = json.load(file)
-
-    poppins = ctk.CTkFont(family='Poppins', weight='normal', size=12)  # Adjust font size if needed
 
     # Create buttons dynamically based on the JSON data
     for name, details in button_data.items():
