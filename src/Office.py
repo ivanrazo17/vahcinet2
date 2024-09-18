@@ -71,4 +71,3 @@ def open_MsOfficePopup():
         )
         button.pack(pady=5)  # Add padding around the button
 
-    popup.mainloop()

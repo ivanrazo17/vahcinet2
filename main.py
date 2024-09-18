@@ -74,25 +74,47 @@ def load_button_data(filename):
 # Load button data
 button_data = load_button_data(resource_path('config\\button_data.json'))
 
+# Function to scale UI elements based on screen resolution
+def scale_value(base_value, scaling_factor):
+    return int(base_value * scaling_factor)
+
+# Get the current screen resolution
+screen_width = app.winfo_screenwidth()
+screen_height = app.winfo_screenheight()
+
+# Define the base resolution (1080p)
+base_width = 1920
+base_height = 1080
+
+# Calculate scaling factors based on the current resolution
+width_scaling = screen_width / base_width
+height_scaling = screen_height / base_height
+
+# Apply scaling to the GUI and button sizes
+scaled_button_size = scale_value(45, min(width_scaling, height_scaling))  # Uniform scaling for buttons
+scaled_frame_padding = scale_value(5, min(width_scaling, height_scaling))
+
 # Function to create buttons with icons (image on top, text at the bottom)
 def create_button(button_frame, name, icon_path, function, highlight=False):
     image = Image.open(icon_path)
-    ctk_image = customtkinter.CTkImage(light_image=image, dark_image=image, size=(45, 45))
-    poppins = customtkinter.CTkFont(family='Poppins', weight='normal', size=16)
+    # Adjust the image size based on scaling
+    ctk_image = customtkinter.CTkImage(light_image=image, dark_image=image, size=(scaled_button_size, scaled_button_size))
+    
+    poppins = customtkinter.CTkFont(family='Poppins', weight='normal', size=scale_value(16, height_scaling))
 
     border_color = "#FFFF00" if highlight else "#FDFCFA"
-    
+
     button = customtkinter.CTkButton(
         button_frame,
         image=ctk_image,
         text="",
         fg_color=border_color,
         hover_color="#D3D3D3",
-        corner_radius=50,
-        width=45,
-        height=45,
+        corner_radius=scale_value(50, height_scaling),
+        width=scaled_button_size,
+        height=scaled_button_size,
         cursor="hand2",
-        command=lambda: threading.Thread(target=function).start() 
+        command=lambda: threading.Thread(target=function).start()
     )
     button.pack()
 
@@ -115,7 +137,7 @@ def create_buttons(container, button_info):
             function = function_map.get(function_name, None)
 
             button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
-            button_frame.pack(padx=5, pady=5, fill='x')
+            button_frame.pack(padx=scaled_frame_padding, pady=scaled_frame_padding, fill='x')
 
             create_button(button_frame, name, icon_path, function)
             button_frames[name] = button_frame
@@ -126,7 +148,7 @@ def create_buttons(container, button_info):
         function = function_map.get(function_name, None)
 
         button_frame = customtkinter.CTkFrame(container, fg_color="transparent")
-        button_frame.pack(padx=5, pady=5, fill='x')
+        button_frame.pack(padx=scaled_frame_padding, pady=scaled_frame_padding, fill='x')
 
         create_button(button_frame, name, icon_path, function)
         button_frames[name] = button_frame
